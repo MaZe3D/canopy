@@ -3,12 +3,28 @@
  */
 package main;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        String jsonString = "{ \"name\":\"John\", \"age\":30, \"city\":\"New York\" }";
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode actualObj;
+        try {
+            actualObj = mapper.readTree(jsonString);
+            System.out.println(actualObj.toString());
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 }
