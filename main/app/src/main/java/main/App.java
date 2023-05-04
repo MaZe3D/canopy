@@ -16,6 +16,12 @@ public class App {
     public static void main(String[] args) {
         String jsonString = "{ \"name\":\"John\", \"age\":30, \"city\":\"New York\" }";
 
+        ArgumentParser argsParser = new ArgumentParser(args);
+        for (Argument arg : argsParser.getArguments()) {
+            System.out.println("Cmd  : " + arg.getCommand());
+            System.out.println("param: " + arg.getParameter() + "\n");
+        }
+
         ObjectMapper mapper = new ObjectMapper();
         JsonNode actualObj;
         try {
