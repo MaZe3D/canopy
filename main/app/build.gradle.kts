@@ -17,6 +17,8 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":filter_interface"))
+
     // Use JUnit Jupiter for testing.
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
 
