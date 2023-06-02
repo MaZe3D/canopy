@@ -18,6 +18,7 @@ repositories {
 
 dependencies {
     implementation(project(":filter_interface"))
+    implementation(project(":plugins"))
 
     // Use JUnit Jupiter for testing.
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
@@ -30,6 +31,8 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.2")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+
+    implementation("org.reflections:reflections:0.9.11")
 }
 
 application {
