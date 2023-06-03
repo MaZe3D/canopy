@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+  <row>
+    <FirstName>Fred</FirstName>
+    <Surname>Smith</Surname>
+    <Age>28</Age>
+    <Address>
+      <Street>Hursley Park</Street>
+      <City>Winchester</City>
+      <Postcode>SO21 2JN</Postcode>
+    </Address>
+    <Phone>
+      <type>home</type>
+      <number>0203 544 1234</number>
+    </Phone>
+    <Phone>
+      <type>office</type>
+      <number>01962 001234</number>
+    </Phone>
+    <Phone>
+      <type>office</type>
+      <number>01962 001235</number>
+    </Phone>
+    <Phone>
+      <type>mobile</type>
+      <number>077 7700 1234</number>
+    </Phone>
+    <Email>
+      <type>office</type>
+      <address>fred.smith@my-work.com</address>
+      <address>fsmith@my-work.com</address>
+    </Email>
+    <Email>
+      <type>home</type>
+      <address>freddy@my-social.com</address>
+      <address>frederic.smith@very-serious.com</address>
+    </Email>
+    <Other>
+      <Misc/>
+      <Alternative.Address>
+        <Street>Brick Lane</Street>
+        <City>London</City>
+        <Postcode>E1 6RF</Postcode>
+      </Alternative.Address>
+      <Over_18_?>true</Over_18_?>
+    </Other>
+  </row>
+  <row>
+    <FirstName>Dieter</FirstName>
+    <Surname>Müller</Surname>
+    <Age>32</Age>
+    <Address>
+      <City>Stuttgarrt</City>
+      <Postcode>70191</Postcode>
+      <Street>Nordbahnhofstr</Street>
+    </Address>
+    <Email>
+      <type>office</type>
+      <address>bohl@moenkemoeller.com</address>
+      <address>bohl@lehre.dhbw-stuttgart.de</address>
+    </Email>
+    <Phone>
+      <type>home</type>
+      <number>0711 123456789</number>
+    </Phone>
+    <Phone>
+      <type>office</type>
+      <number>0711 987654321</number>
+    </Phone>
+  </row>
+</root>
