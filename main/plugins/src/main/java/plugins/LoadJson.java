@@ -4,29 +4,25 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.net.MalformedURLException;
 
 public class LoadJson implements IFilter {
 
-    public static int dummy(int i) {
-        return i + 1;
-    }
-
     @Override
     public JsonNode apply(JsonNode jsonNode, String parameter) {
-        String jsonString = "{ \"name\":\"John\", \"age\":30, \"city\":\"New York\" }";
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode actualObj = null;
-
         try {
-            actualObj = mapper.readTree(jsonString);
-            //System.out.println(actualObj.toString());
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            URL url = new URL(new URL("file:"), parameter);
+            System.out.println("loading JSON... source: " + url);
+            return new ObjectMapper().readTree(url);
         }
-        return actualObj;
+        catch (Throwable e) {
+            System.out.println(e);
+            return null;
+        }
     }
 
 }
