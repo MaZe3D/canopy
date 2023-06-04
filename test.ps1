@@ -14,3 +14,9 @@ $testYaml | .\main\app\build\distributions\app\app\bin\app.bat LoadYaml StoreJso
 .\main\app\build\distributions\app\app\bin\app.bat LoadYaml:"https://tools.learningcontainer.com/sample-json.json" StoreJson
 .\main\app\build\distributions\app\app\bin\app.bat LoadYaml:"https://tools.learningcontainer.com/sample-json.json" StoreXml
 .\main\app\build\distributions\app\app\bin\app.bat LoadYaml:"https://tools.learningcontainer.com/sample-json.json" StoreYaml
+
+.\main\app\build\distributions\app\app\bin\app.bat LoadYaml:"https://tools.learningcontainer.com/sample-json.json" StoreJson:output.json
+Get-Content .\output.json
+
+
+Remove-Item .\output.json

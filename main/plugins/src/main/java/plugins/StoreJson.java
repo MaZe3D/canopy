@@ -18,7 +18,17 @@ public class StoreJson implements IFilter {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-            System.out.println(objectMapper.writeValueAsString(jsonNode));
+            String content = objectMapper.writeValueAsString(jsonNode);
+
+            if (parameter == "") {
+                System.out.println("No parameter specified, using standard output as target");
+                System.out.println(content);
+            } else {
+                System.out.println("Using parameter as target-path: " + parameter);
+                URL url = new URL(new URL("file:"), parameter);
+                System.out.println("writing JSON to: " + url);
+                objectMapper.writeValue(new File(url.getFile()), jsonNode);
+            }
             return jsonNode;
         }
         catch (Throwable e) {
@@ -26,5 +36,4 @@ public class StoreJson implements IFilter {
             return null;
         }
     }
-
 }
