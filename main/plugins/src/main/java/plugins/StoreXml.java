@@ -24,25 +24,21 @@ public class StoreXml implements IFilter {
     @Override
     public JsonNode apply(JsonNode jsonNode, String parameter) {
         try {
-            ObjectNode root = new ObjectNode(JsonNodeFactory.instance);
-            root.set("row", jsonNode);
+            // wrap root element with "row" if it's an array
+            JsonNode nodeToStore = jsonNode;
+            if (nodeToStore.isArray()) {
+                nodeToStore = new ObjectNode(JsonNodeFactory.instance).set("row", nodeToStore);
+            }
+
+            SimpleModule module = new SimpleModule();
+            module.addSerializer(JsonNode.class, new XmlSpaceToUnderscoreSerializer());
 
             XmlMapper xmlMapper = new XmlMapper();
             xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-            // create a custom serializer to replace spaces with underscores in field names
-            SimpleModule module = new SimpleModule();
-            module.addSerializer(JsonNode.class, new CustomJsonNodeSerializer());
             xmlMapper.registerModule(module);
-
-            // Convert JsonNode to XML
-            String xml = xmlMapper.writeValueAsString(root);
-
-            // Print the XML output
-            System.out.println(xml);
+            System.out.println(xmlMapper.writeValueAsString(nodeToStore));
 
             return jsonNode;
-
         }
         catch (Throwable e) {
             System.out.println(e);
@@ -50,8 +46,9 @@ public class StoreXml implements IFilter {
         }
     }
 
-    private static class CustomJsonNodeSerializer extends StdSerializer<JsonNode> {
-        public CustomJsonNodeSerializer() {
+    // custom serializer for converting spaces to underscores in fiel names
+    private static class XmlSpaceToUnderscoreSerializer extends StdSerializer<JsonNode> {
+        public XmlSpaceToUnderscoreSerializer() {
             super(JsonNode.class);
         }
 
