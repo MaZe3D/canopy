@@ -19,11 +19,13 @@ public class Encrypt implements IFilter {
         return encryptTree(jsonNode, parameter);
     }
 
+    //recursively traverse Json tree while creating separate encrypted Json tree
     private JsonNode encryptTree(JsonNode jsonNode, String parameter){
         ObjectMapper mapper = new ObjectMapper();
         if(jsonNode.isObject()){
             //create Object JsonNode
             ObjectNode objectNode = mapper.createObjectNode();
+            //iterate over the fields in the object node 
             Iterator<Map.Entry<String, JsonNode>> fieldsIterator = jsonNode.fields();
             fieldsIterator.forEachRemaining(entry -> {
                 //set fields with fieldnames
@@ -34,6 +36,7 @@ public class Encrypt implements IFilter {
         else if(jsonNode.isArray()){
             //create Array JsonNode
             ArrayNode arrayNode = mapper.createArrayNode();
+            //iterate over all elements in the arraynode 
             Iterator<JsonNode> elements = jsonNode.elements();
             elements.forEachRemaining(element -> {
                 //add elements to array
@@ -47,13 +50,12 @@ public class Encrypt implements IFilter {
         return null;
     }
     private String encrypt(String inputString, String keyString){
-        // // encrypt by performing xor with the input and key chars 
-        // StringBuilder output = new StringBuilder();
-        // for (int i = 0; i < inputString.length(); i++){
-        //     output.append((char) (inputString.charAt(i)^keyString.charAt(i % keyString.length())));
-        // }
-        // return output.toString();
-        return inputString;
+        // encrypt by performing xor with the input and key chars 
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < inputString.length(); i++){
+            output.append((char) (inputString.charAt(i)^keyString.charAt(i % keyString.length())));
+        }
+        return output.toString();
     }
 }
 
