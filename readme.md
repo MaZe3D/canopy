@@ -3,23 +3,23 @@ canopy ist ein kompaktes und flexibles Kommandozeilenprogramm, welches JSON, XML
 
 ## Bedienung
 ### Filter
-Die Verwendung des Tools erfolgt durch das verketten sogenannter Filter. Filter sind Module welche die Dateien Laden, Speichern und Manipulieren können.
+Die Verwendung des Tools erfolgt durch das Verketten sogenannter Filter. Filter sind Module welche die Dateien laden, speichern und manipulieren können.
 Ein Filter nimmt bestehenden Inhalt entgegen und führt Operationen an diesem durch. Das Ergebnis kann dann einem nächsten Filter übergeben werden.
 
 Folgende FIlter stehen ab Werk zur Verfügung:
 | Modul       | Parameter                          | Beschreibung                                                                                                                                                               |
 | ----------- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `LoadJson`  | Dateipfad (Optional)               | Lädt eine vorliegende JSON-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Eingabe (stdin) übernommen.       |
-| `LoadXml`   | Dateipfad (Optional)               | Lädt eine vorliegende XML-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Eingabe (stdin) übernommen.        |
-| `LoadYaml`  | Dateipfad (Optional)               | Lädt eine vorliegende YAML-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Eingabe (stdin) übernommen.       |
+| `LoadJson`  | Dateipfad (Optional)               | Lädt eine vorliegende JSON-Datei in das Programm zur Weiterverarbeitung. Der Dateipfad kann auch in form einer URL erfolgen. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Eingabe (stdin) übernommen.       |
+| `LoadXml`   | Dateipfad (Optional)               | Lädt eine vorliegende XML-Datei in das Programm zur Weiterverarbeitung. Der Dateipfad kann auch in form einer URL erfolgen. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Eingabe (stdin) übernommen.        |
+| `LoadYaml`  | Dateipfad (Optional)               | Lädt eine vorliegende YAML-Datei in das Programm zur Weiterverarbeitung. Der Dateipfad kann auch in form einer URL erfolgen Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Eingabe (stdin) übernommen.       |
 | `StoreJson` | Dateipfad (Optional)               | Speichert eine vorliegende JSON-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Ausgabe (stdout) übernommen. |
 | `StoreXml`  | Dateipfad (Optional)               | Speichert eine vorliegende XML-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Ausgabe (stdout) übernommen.  |
 | `StoreYaml` | Dateipfad (Optional)               | Speichert eine vorliegende YAML-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Ausgabe (stdout) übernommen. |
-| `Encrypt`   | Schlüssel                          |                                                                                                                                                                            |
-| `Decrypt`   | Schlüssel                          |                                                                                                                                                                            |
+| `Encrypt`   | Passwort                           |                                                                                                                                                                            |
+| `Decrypt`   | Passwort                           |                                                                                                                                                                            |
 | `Extract`   | Name des zu extrahierenden Knotens |                                                                                                                                                                            |
 ### Aufruf des Programms
-Beim Aufruf der Programms über die Kommandozeile werden Parameter übergeben welche dem Programm beschreiben wie es die Dateien zu manipulieren und abzuspeichern hat.
+Beim Aufruf der Programms über die Kommandozeile werden Parameter übergeben, welche dem Programm beschreiben wie es die Dateien zu manipulieren und abzuspeichern hat.
 
 Ein Beispiel für einen Programmaufruf lautet wie folgt:
 ```
@@ -31,8 +31,7 @@ Module lassen sich Beliebig anwenden und verketten. So lässt sich mit dem Aufru
 ```
 canopy LoadJson:"./example.json" Encrypt:"password123" StoreJSON:"./encrypted.json StoreXML:"./encrypted.xml"
 ```
-1. `LoadJson:"./example.json"` lädt die Datei `./example.json"
+1. `LoadJson:"./example.json"` lädt die Datei `./example.json`
 2. `Encrypt:"password123"` verschlüsselt alle Values der Baumstruktur. Die Daten liegen dann Veschlüsselt im base64-Format vor.
 3. `StoreJson:"./encrypted.json` speichert das Ergebnis in einer JSON-Datei
 4. `StoreXml:"./encrypted.xml` speichert das Ergebnis zusätzlich in einer XML-Datei
-
