@@ -41,19 +41,19 @@ public class StoreXml implements IFilter.IStoreFilter {
 
             if (parameter == "") {
                 String content = xmlMapper.writeValueAsString(nodeToStore);
-                System.out.println("No parameter specified, using standard output as target");
+                System.err.println("No parameter specified, using standard output as target");
                 System.out.print(content);
             } else {
-                System.out.println("Using parameter as target-path: " + parameter);
+                System.err.println("Using parameter as target-path: " + parameter);
                 URL url = new URL(new URL("file:"), parameter);
-                System.out.println("writing XML to: " + url);
+                System.err.println("writing XML to: " + url);
                 xmlMapper.writeValue(new File(url.getFile()), nodeToStore);
             }
 
             return jsonNode;
         }
         catch (Throwable e) {
-            System.out.println(e);
+            System.err.println(e);
             return null;
         }
     }

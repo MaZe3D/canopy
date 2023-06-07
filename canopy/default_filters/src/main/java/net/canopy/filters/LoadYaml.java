@@ -18,15 +18,15 @@ public class LoadYaml implements IFilter.ILoadFilter {
     public JsonNode apply(JsonNode jsonNode, String parameter) {
         try {
             if (parameter == "") {
-                System.out.println("No parameter specified, using standard input as source");
+                System.err.println("No parameter specified, using standard input as source");
                 return new YAMLMapper().readTree(System.in);
             }
-            System.out.println("Using parameter as source-path: " + parameter);
+            System.err.println("Using parameter as source-path: " + parameter);
             URL url = new URL(new URL("file:"), parameter);
-            System.out.println("loading YAML from: " + url);
+            System.err.println("loading YAML from: " + url);
             return new YAMLMapper().readTree(url);
         } catch (Throwable e) {
-            System.out.println(e);
+            System.err.println(e);
             return null;
         }
     }

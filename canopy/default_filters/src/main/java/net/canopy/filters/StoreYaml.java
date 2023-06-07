@@ -22,17 +22,17 @@ public class StoreYaml implements IFilter.IStoreFilter {
             yamlMapper.enable(SerializationFeature.INDENT_OUTPUT);
             if (parameter == "") {
                 String content = yamlMapper.writeValueAsString(jsonNode);
-                System.out.println("No parameter specified, using standard output as target");
+                System.err.println("No parameter specified, using standard output as target");
                 System.out.print(content);
             } else {
-                System.out.println("Using parameter as target-path: " + parameter);
+                System.err.println("Using parameter as target-path: " + parameter);
                 URL url = new URL(new URL("file:"), parameter);
-                System.out.println("writing JSON to: " + url);
+                System.err.println("writing JSON to: " + url);
                 yamlMapper.writeValue(new File(url.getFile()), jsonNode);
             }
             return jsonNode;
         } catch (Throwable e) {
-            System.out.println(e);
+            System.err.println(e);
             return null;
         }
     }

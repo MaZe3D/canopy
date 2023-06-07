@@ -12,7 +12,7 @@ public class Decrypt extends ValueTransformer implements IFilter {
 
     @Override
     public JsonNode apply(JsonNode jsonNode, String parameter) {
-        System.out.println("Decrypting...");
+        System.err.println("Decrypting...");
         this.aesCryptor = new AesCryptor(parameter); // use parameter as AES password
         return this.transformTree(jsonNode);
     }

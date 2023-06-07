@@ -10,7 +10,7 @@ public class Extract implements IFilter {
 
     @Override
     public JsonNode apply(JsonNode jsonNode, String parameter) {
-        System.out.println("Extracting " + parameter + "...");
+        System.err.println("Extracting " + parameter + "...");
         ObjectMapper mapper = new ObjectMapper();
         ArrayNode resultArray = mapper.createArrayNode();
         //iterate through all JsonNodes with the parameter as its name

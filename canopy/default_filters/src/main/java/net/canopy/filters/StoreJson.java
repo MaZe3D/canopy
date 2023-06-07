@@ -23,18 +23,18 @@ public class StoreJson implements IFilter.IStoreFilter {
             String content = objectMapper.writeValueAsString(jsonNode);
 
             if (parameter == "") {
-                System.out.println("No parameter specified, using standard output as target");
+                System.err.println("No parameter specified, using standard output as target");
                 System.out.print(content);
             } else {
-                System.out.println("Using parameter as target-path: " + parameter);
+                System.err.println("Using parameter as target-path: " + parameter);
                 URL url = new URL(new URL("file:"), parameter);
-                System.out.println("writing JSON to: " + url);
+                System.err.println("writing JSON to: " + url);
                 objectMapper.writeValue(new File(url.getFile()), jsonNode);
             }
             return jsonNode;
         }
         catch (Throwable e) {
-            System.out.println(e);
+            System.err.println(e);
             return null;
         }
     }

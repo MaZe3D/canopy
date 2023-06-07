@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public interface IFilter {
     default JsonNode apply(JsonNode jsonNode, String parameter) {
-        System.out.println("standard filter implementation of " + this.getClass());
+        System.err.println("standard filter implementation of " + this.getClass());
         return jsonNode;
     }
 

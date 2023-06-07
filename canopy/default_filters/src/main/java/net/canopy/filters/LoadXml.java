@@ -18,16 +18,16 @@ public class LoadXml implements IFilter.ILoadFilter {
     public JsonNode apply(JsonNode jsonNode, String parameter) {
         try {
             if (parameter == "") {
-                System.out.println("No parameter specified, using standard input as source");
+                System.err.println("No parameter specified, using standard input as source");
                 return new XmlMapper().readTree(System.in);
             } else {
-                System.out.println("Using parameter as source-path: " + parameter);
+                System.err.println("Using parameter as source-path: " + parameter);
                 URL url = new URL(new URL("file:"), parameter);
-                System.out.println("loading XML from: " + url);
+                System.err.println("loading XML from: " + url);
                 return new XmlMapper().readTree(url);
             }
         } catch (Throwable e) {
-            System.out.println(e);
+            System.err.println(e);
             return null;
         }
     }
