@@ -58,7 +58,7 @@ public class App {
             throw new FilterChainIntegrityException("First filter in chain must be IFilter.ILoadFilter");
         }
 
-        //Check if all Loads have a store as next filter
+        //Check if all Load-Filter are followed by a Store-Filter
         for (int i = 0; i < filterChain.length - 1; i++) {
             if (filterChain[i] instanceof IFilter.ILoadFilter && !(filterChain[i + 1] instanceof IFilter.IStoreFilter)) {
                 throw new FilterChainIntegrityException("Load filters must be followed by a store filter");
@@ -71,7 +71,6 @@ public class App {
         }
     }
 
-    //Apply filter chain to JsonNode
     public static void runFilterChain(IFilter[] filterChain, ArrayList<Argument> args)
     {
         JsonNode node = null;
