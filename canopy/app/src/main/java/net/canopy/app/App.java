@@ -14,8 +14,20 @@ public class App {
     public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException {
         ArgumentParser argsParser = new ArgumentParser(args);
 
-        //JsonNode node = null;
+        var filterChain = loadFilters(argsParser);
 
+        try {
+            integrityCheck(filterChain);
+        } catch (FilterChainIntegrityException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        runFilterChain(filterChain, argsParser.getArguments());
+
+    }
+
+    public static IFilter[] loadFilters(ArgumentParser argsParser) {
         IFilter[] filterChain = new IFilter[argsParser.getArguments().size()];
 
         for (int i = 0; i < argsParser.getArguments().size(); i++) {
@@ -30,8 +42,6 @@ public class App {
                 System.err.println("Load filter: " + filterClass + "with arguments: " + arg.getParameter());
 
                 filterChain[i] = (IFilter)filterClass.getDeclaredConstructor().newInstance();
-
-                //node = filterInstance.apply(node, arg.getParameter());
             }
             catch (Throwable e) {
                 e.printStackTrace();
@@ -39,15 +49,7 @@ public class App {
             }
         }
 
-        try {
-            integrityCheck(filterChain);
-        } catch (FilterChainIntegrityException e) {
-            System.err.println(e.getMessage());
-            return;
-        }
-
-        runFilterChain(filterChain, argsParser.getArguments());
-
+        return filterChain;
     }
 
     public static void integrityCheck(IFilter[] filterChain) throws FilterChainIntegrityException {
