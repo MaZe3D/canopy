@@ -21,7 +21,7 @@ import java.net.MalformedURLException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
-public class StoreXml implements IFilter {
+public class StoreXml implements IFilter.IStoreFilter {
 
     @Override
     public JsonNode apply(JsonNode jsonNode, String parameter) {

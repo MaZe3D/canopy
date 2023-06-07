@@ -7,4 +7,10 @@ public interface IFilter {
         System.out.println("standard filter implementation of " + this.getClass());
         return jsonNode;
     }
+
+    static interface ILoadFilter extends IFilter {
+    }
+
+    static interface IStoreFilter extends IFilter {
+    }
 }

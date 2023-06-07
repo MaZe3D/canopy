@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.MalformedURLException;
 
-public class LoadJson implements IFilter {
+public class LoadJson implements IFilter.ILoadFilter {
 
     @Override
     public JsonNode apply(JsonNode jsonNode, String parameter) {

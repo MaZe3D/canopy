@@ -24,12 +24,19 @@ $testYaml | &$runScriptName LoadYaml StoreJson
 &$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreXml
 &$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreYaml
 
-&$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreJson:output.json
+&$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreJson:"output.json"
 &$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreXml:output.xml
 &$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreYaml:output.yaml
+
+&$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreJson:"output.json" StoreXml:output.xml StoreYaml:output.yaml
+&$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreXml:output.xml StoreYaml:output.yaml
+&$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreJson:"output.json" LoadJson:"https://tools.learningcontainer.com/sample-json.json" LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreYaml:output.yaml
+
+&$runScriptName LoadJson:"doesnotexist.bla" StoreJson:"output.json"
+
 Get-Content ./output.json
 Get-Content ./output.xml
 Get-Content ./output.yaml
 
 # Cleanup
-Remove-Item ./output.*
+Remove-Item ./output* -Force

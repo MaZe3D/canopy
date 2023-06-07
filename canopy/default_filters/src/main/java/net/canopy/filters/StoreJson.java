@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.MalformedURLException;
 
-public class StoreJson implements IFilter {
+public class StoreJson implements IFilter.IStoreFilter {
 
     @Override
     public JsonNode apply(JsonNode jsonNode, String parameter) {
