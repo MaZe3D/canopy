@@ -24,7 +24,7 @@ public class StoreJson implements IFilter {
 
             if (parameter == "") {
                 System.out.println("No parameter specified, using standard output as target");
-                System.out.println(content);
+                System.out.print(content);
             } else {
                 System.out.println("Using parameter as target-path: " + parameter);
                 URL url = new URL(new URL("file:"), parameter);

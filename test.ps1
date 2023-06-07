@@ -20,12 +20,16 @@ $testJson | &$runScriptName LoadJson StoreJson
 $testXml | &$runScriptName LoadXml StoreJson
 $testYaml | &$runScriptName LoadYaml StoreJson
 
-&$runScriptName LoadYaml:"https://tools.learningcontainer.com/sample-json.json" StoreJson
-&$runScriptName LoadYaml:"https://tools.learningcontainer.com/sample-json.json" StoreXml
-&$runScriptName LoadYaml:"https://tools.learningcontainer.com/sample-json.json" StoreYaml
+&$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreJson
+&$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreXml
+&$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreYaml
 
-&$runScriptName LoadYaml:"https://tools.learningcontainer.com/sample-json.json" StoreJson:output.json
+&$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreJson:output.json
+&$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreXml:output.xml
+&$runScriptName LoadJson:"https://tools.learningcontainer.com/sample-json.json" StoreYaml:output.yaml
 Get-Content ./output.json
+Get-Content ./output.xml
+Get-Content ./output.yaml
 
 # Cleanup
-Remove-Item ./output.json
+Remove-Item ./output.*

@@ -20,10 +20,18 @@ public class StoreYaml implements IFilter {
         try {
             YAMLMapper yamlMapper = new YAMLMapper();
             yamlMapper.enable(SerializationFeature.INDENT_OUTPUT);
-            System.out.println(yamlMapper.writeValueAsString(jsonNode));
+            if (parameter == "") {
+                String content = yamlMapper.writeValueAsString(jsonNode);
+                System.out.println("No parameter specified, using standard output as target");
+                System.out.print(content);
+            } else {
+                System.out.println("Using parameter as target-path: " + parameter);
+                URL url = new URL(new URL("file:"), parameter);
+                System.out.println("writing JSON to: " + url);
+                yamlMapper.writeValue(new File(url.getFile()), jsonNode);
+            }
             return jsonNode;
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             System.out.println(e);
             return null;
         }

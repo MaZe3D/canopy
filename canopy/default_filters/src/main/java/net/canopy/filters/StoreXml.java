@@ -38,7 +38,17 @@ public class StoreXml implements IFilter {
             XmlMapper xmlMapper = new XmlMapper();
             xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
             xmlMapper.registerModule(module);
-            System.out.println(xmlMapper.writeValueAsString(nodeToStore));
+
+            if (parameter == "") {
+                String content = xmlMapper.writeValueAsString(nodeToStore);
+                System.out.println("No parameter specified, using standard output as target");
+                System.out.print(content);
+            } else {
+                System.out.println("Using parameter as target-path: " + parameter);
+                URL url = new URL(new URL("file:"), parameter);
+                System.out.println("writing XML to: " + url);
+                xmlMapper.writeValue(new File(url.getFile()), nodeToStore);
+            }
 
             return jsonNode;
         }
@@ -77,5 +87,4 @@ public class StoreXml implements IFilter {
             }
         }
     }
-
 }
