@@ -7,17 +7,17 @@ Die Verwendung des Tools erfolgt durch das verketten sogenannter Filter. Filter 
 Ein Filter nimmt bestehenden Inhalt entgegen und führt Operationen an diesem durch. Das Ergebnis kann dann einem nächsten Filter übergeben werden.
 
 Folgende FIlter stehen ab Werk zur Verfügung:
-| Modul       | Parameter                         | Beschreibung                                                                                                                                                               |
-|-------------|-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `LoadJson`  | Dateipfad (Optional)              | Lädt eine vorliegende JSON-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Eingabe (stdin) übernommen.       |
-| `LoadXml`   | Dateipfad (Optional)              | Lädt eine vorliegende XML-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Eingabe (stdin) übernommen.        |
-| `LoadYaml`  | Dateipfad (Optional)              | Lädt eine vorliegende YAML-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Eingabe (stdin) übernommen.       |
-| `StoreJson` | Dateipfad (Optional)              | Speichert eine vorliegende JSON-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Ausgabe (stdout) übernommen. |
-| `StoreXml`  | Dateipfad (Optional)              | Speichert eine vorliegende XML-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Ausgabe (stdout) übernommen.  |
-| `StoreYaml` | Dateipfad (Optional)              | Speichert eine vorliegende YAML-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Ausgabe (stdout) übernommen. |
-| `Encrypt`   | Schlüssel                         |                                                                                                                                                                            |
-| `Decrypt`   | Schlüssel                         |                                                                                                                                                                            |
-| `Extract`   | Name der zu extrahierenden Knoten |                                                                                                                                                                            |
+| Modul       | Parameter                          | Beschreibung                                                                                                                                                               |
+| ----------- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `LoadJson`  | Dateipfad (Optional)               | Lädt eine vorliegende JSON-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Eingabe (stdin) übernommen.       |
+| `LoadXml`   | Dateipfad (Optional)               | Lädt eine vorliegende XML-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Eingabe (stdin) übernommen.        |
+| `LoadYaml`  | Dateipfad (Optional)               | Lädt eine vorliegende YAML-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Eingabe (stdin) übernommen.       |
+| `StoreJson` | Dateipfad (Optional)               | Speichert eine vorliegende JSON-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Ausgabe (stdout) übernommen. |
+| `StoreXml`  | Dateipfad (Optional)               | Speichert eine vorliegende XML-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Ausgabe (stdout) übernommen.  |
+| `StoreYaml` | Dateipfad (Optional)               | Speichert eine vorliegende YAML-Datei in das Programm zur Weiterverarbeitung. Wird kein Dateipfad übergeben, wird der Inhalt aus der Standard-Ausgabe (stdout) übernommen. |
+| `Encrypt`   | Schlüssel                          |                                                                                                                                                                            |
+| `Decrypt`   | Schlüssel                          |                                                                                                                                                                            |
+| `Extract`   | Name des zu extrahierenden Knotens |                                                                                                                                                                            |
 ### Aufruf des Programms
 Beim Aufruf der Programms über die Kommandozeile werden Parameter übergeben welche dem Programm beschreiben wie es die Dateien zu manipulieren und abzuspeichern hat.
 
