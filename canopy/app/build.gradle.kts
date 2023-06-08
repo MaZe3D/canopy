@@ -35,6 +35,7 @@ tasks.named<Test>("test") {
 // configure javadoc to create single documentation for all subprojects: app, filter_interface, default_filters
 gradle.projectsEvaluated {
     tasks.withType<Javadoc> {
+        title = "Canopy Documentation"
         source(sourceSets["main"].allJava)
         source(project(":filter_interface").the<SourceSetContainer>()["main"].allJava)
         source(project(":default_filters").the<SourceSetContainer>()["main"].allJava)
