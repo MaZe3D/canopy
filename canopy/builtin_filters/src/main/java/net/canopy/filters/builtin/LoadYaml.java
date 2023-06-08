@@ -1,7 +1,6 @@
 package net.canopy.filters.builtin;
 
-import net.canopy.app.api.IFilter;
-import net.canopy.app.api.Logger;
+import net.canopy.app.api.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -18,7 +17,7 @@ public class LoadYaml implements IFilter.ILoadFilter {
     private Logger logger = new Logger(this.getClass().getName());
 
     @Override
-    public JsonNode apply(JsonNode jsonNode, String parameter) {
+    public JsonNode apply(JsonNode jsonNode, String parameter) throws FilterException {
         try {
             if (parameter == "") {
                 logger.log("No parameter specified, using standard input as source");
@@ -29,8 +28,7 @@ public class LoadYaml implements IFilter.ILoadFilter {
             logger.log("loading YAML from: " + url);
             return new YAMLMapper().readTree(url);
         } catch (Throwable e) {
-            logger.log(e.getMessage());
-            return null;
+            throw new FilterException(this, e.getMessage());
         }
     }
 

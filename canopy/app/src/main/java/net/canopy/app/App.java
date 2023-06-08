@@ -1,7 +1,6 @@
 package net.canopy.app;
 
-import net.canopy.app.api.IFilter;
-import net.canopy.app.api.Logger;
+import net.canopy.app.api.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -83,7 +82,12 @@ public class App {
     private static void runFilterChain(IFilter[] filterChain, ArrayList<Argument> args) {
         JsonNode node = null;
         for (int i = 0; i < filterChain.length; i++) {
-            node = filterChain[i].apply(node, args.get(i).getParameter());
+            try {
+                node = filterChain[i].apply(node, args.get(i).getParameter());
+            } catch (FilterException e) {
+                logger.log("An error occured while running filter \"" + filterChain[i].getClass().getName() + "\": " + e.getMessage() + ". The filter chain will be aborted.");
+                break;
+            }
         }
     }
 }

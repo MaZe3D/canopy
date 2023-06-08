@@ -1,7 +1,6 @@
 package net.canopy.filters.builtin;
 
-import net.canopy.app.api.IFilter;
-import net.canopy.app.api.Logger;
+import net.canopy.app.api.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -19,7 +18,7 @@ public class StoreJson implements IFilter.IStoreFilter {
     private Logger logger = new Logger(this.getClass().getName());
 
     @Override
-    public JsonNode apply(JsonNode jsonNode, String parameter) {
+    public JsonNode apply(JsonNode jsonNode, String parameter) throws FilterException {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -37,8 +36,7 @@ public class StoreJson implements IFilter.IStoreFilter {
             return jsonNode;
         }
         catch (Throwable e) {
-            logger.log(e.getMessage());
-            return null;
+            throw new FilterException(this, e.getMessage());
         }
     }
 }

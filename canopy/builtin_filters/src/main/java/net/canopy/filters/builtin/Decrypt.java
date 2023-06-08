@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import com.fasterxml.jackson.databind.node.ValueNode;
 
+import net.canopy.app.api.CanopyException;
+import net.canopy.app.api.FilterException;
+
 public class Decrypt extends ValueTransformer implements IFilter {
 
     private Logger logger = new Logger(this.getClass().getName());
@@ -17,13 +20,17 @@ public class Decrypt extends ValueTransformer implements IFilter {
     private AesCryptor aesCryptor;
 
     @Override
-    public JsonNode apply(JsonNode jsonNode, String parameter) {
-        logger.log("Decrypting...");
-        this.aesCryptor = new AesCryptor(parameter); // use parameter as AES password
-        return this.transformTree(jsonNode);
+    public JsonNode apply(JsonNode jsonNode, String parameter) throws FilterException {
+        logger.log("Decrypting with password: " + parameter);
+        try {
+            this.aesCryptor = new AesCryptor(parameter); // use parameter as AES password
+            return this.transformTree(jsonNode);
+        } catch (CanopyException e) {
+            throw new FilterException(this, e.getMessage());
+        }
     }
 
-    protected ValueNode transformValue(ValueNode value) {
+    protected ValueNode transformValue(ValueNode value) throws CanopyException {
         return new TextNode(this.aesCryptor.decrypt(value.asText()));
     }
 }

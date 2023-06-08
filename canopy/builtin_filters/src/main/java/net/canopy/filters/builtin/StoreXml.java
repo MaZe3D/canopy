@@ -1,7 +1,6 @@
 package net.canopy.filters.builtin;
 
-import net.canopy.app.api.IFilter;
-import net.canopy.app.api.Logger;
+import net.canopy.app.api.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -27,7 +26,7 @@ public class StoreXml implements IFilter.IStoreFilter {
     private Logger logger = new Logger(this.getClass().getName());
 
     @Override
-    public JsonNode apply(JsonNode jsonNode, String parameter) {
+    public JsonNode apply(JsonNode jsonNode, String parameter) throws FilterException {
         try {
             // wrap root element with "row" if it's an array
             JsonNode nodeToStore = jsonNode;
@@ -56,8 +55,7 @@ public class StoreXml implements IFilter.IStoreFilter {
             return jsonNode;
         }
         catch (Throwable e) {
-            logger.log(e.getMessage());
-            return null;
+            throw new FilterException(this, e.getMessage());
         }
     }
 

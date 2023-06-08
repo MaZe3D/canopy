@@ -19,7 +19,7 @@ public interface IFilter {
      * @see IFilter.ILoadFilter
      * @see IFilter.IStoreFilter
      */
-    JsonNode apply(JsonNode jsonNode, String argument);
+    JsonNode apply(JsonNode jsonNode, String argument) throws FilterException;
 
 
 

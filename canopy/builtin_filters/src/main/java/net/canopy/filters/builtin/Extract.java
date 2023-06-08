@@ -1,7 +1,6 @@
 package net.canopy.filters.builtin;
 
-import net.canopy.app.api.IFilter;
-import net.canopy.app.api.Logger;
+import net.canopy.app.api.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +11,7 @@ public class Extract implements IFilter {
 
     @Override
     public JsonNode apply(JsonNode jsonNode, String parameter) {
-        logger.log("Extracting " + parameter + "...");
+        logger.log("Extracting " + parameter);
         ObjectMapper mapper = new ObjectMapper();
         ArrayNode resultArray = mapper.createArrayNode();
         //iterate through all JsonNodes with the parameter as its name
