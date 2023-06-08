@@ -1,6 +1,7 @@
 package net.canopy.filters;
 
 import net.canopy.app.IFilter;
+import net.canopy.app.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -14,21 +15,24 @@ import java.net.MalformedURLException;
 
 public class LoadJson implements IFilter.ILoadFilter {
 
+    private Logger logger = new Logger(this.getClass().getName());
     @Override
     public JsonNode apply(JsonNode jsonNode, String parameter) {
         try {
             if (parameter == "") {
-                System.err.println("No parameter specified, using standard input as source");
+                logger.log("No parameter specified, using standard input as source");
                 return new ObjectMapper().readTree(System.in);
             }
-            System.err.println("Using parameter as source-path: " + parameter);
+            logger.log("Using parameter as source-path: " + parameter);
             URL url = new URL(new URL("file:"), parameter);
-            System.err.println("loading JSON from: " + url);
+            logger.log("loading JSON from: " + url);
             return new ObjectMapper().readTree(url);
 
         } catch (Throwable e) {
-            System.err.println(e);
+            logger.log(e.getMessage());
             return null;
         }
     }
+
+
 }

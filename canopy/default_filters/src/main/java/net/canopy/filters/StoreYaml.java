@@ -1,6 +1,7 @@
 package net.canopy.filters;
 
 import net.canopy.app.IFilter;
+import net.canopy.app.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -15,6 +16,8 @@ import java.net.MalformedURLException;
 
 public class StoreYaml implements IFilter.IStoreFilter {
 
+    private Logger logger = new Logger(this.getClass().getName());
+
     @Override
     public JsonNode apply(JsonNode jsonNode, String parameter) {
         try {
@@ -22,17 +25,17 @@ public class StoreYaml implements IFilter.IStoreFilter {
             yamlMapper.enable(SerializationFeature.INDENT_OUTPUT);
             if (parameter == "") {
                 String content = yamlMapper.writeValueAsString(jsonNode);
-                System.err.println("No parameter specified, using standard output as target");
+                logger.log("No parameter specified, using standard output as target");
                 System.out.print(content);
             } else {
-                System.err.println("Using parameter as target-path: " + parameter);
+                logger.log("Using parameter as target-path: " + parameter);
                 URL url = new URL(new URL("file:"), parameter);
-                System.err.println("writing JSON to: " + url);
+                logger.log("writing JSON to: " + url);
                 yamlMapper.writeValue(new File(url.getFile()), jsonNode);
             }
             return jsonNode;
         } catch (Throwable e) {
-            System.err.println(e);
+            logger.log(e.getMessage());
             return null;
         }
     }

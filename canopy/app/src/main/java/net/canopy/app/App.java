@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class App {
+
+    private static Logger logger = new Logger(App.class.getName());
+
     public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException {
         ArgumentParser argsParser = new ArgumentParser(args);
 
@@ -16,12 +19,11 @@ public class App {
         try {
             checkFilterOrder(filterChain);
         } catch (FilterOrderException e) {
-            System.err.println(e.getMessage());
+            logger.log(e.getMessage());
             return;
         }
 
         runFilterChain(filterChain, argsParser.getArguments());
-
     }
 
     private static IFilter[] loadFilters(ArgumentParser argsParser) {
@@ -40,7 +42,7 @@ public class App {
                 }
                 Class<? extends IFilter> filterClass = matchingFilterClasses.iterator().next();
 
-                System.err.println("Load filter: " + filterClass + " with arguments: " + arg.getParameter());
+                logger.log("Load filter: " + filterClass + " with arguments: " + arg.getParameter());
 
                 try {
                     filterChain[i] = (IFilter)filterClass.getDeclaredConstructor().newInstance();

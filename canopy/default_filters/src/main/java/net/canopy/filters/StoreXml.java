@@ -1,6 +1,7 @@
 package net.canopy.filters;
 
 import net.canopy.app.IFilter;
+import net.canopy.app.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -23,6 +24,8 @@ import java.util.LinkedHashMap;
 
 public class StoreXml implements IFilter.IStoreFilter {
 
+    private Logger logger = new Logger(this.getClass().getName());
+
     @Override
     public JsonNode apply(JsonNode jsonNode, String parameter) {
         try {
@@ -41,19 +44,19 @@ public class StoreXml implements IFilter.IStoreFilter {
 
             if (parameter == "") {
                 String content = xmlMapper.writeValueAsString(nodeToStore);
-                System.err.println("No parameter specified, using standard output as target");
+                logger.log("No parameter specified, using standard output as target");
                 System.out.print(content);
             } else {
-                System.err.println("Using parameter as target-path: " + parameter);
+                logger.log("Using parameter as target-path: " + parameter);
                 URL url = new URL(new URL("file:"), parameter);
-                System.err.println("writing XML to: " + url);
+                logger.log("writing XML to: " + url);
                 xmlMapper.writeValue(new File(url.getFile()), nodeToStore);
             }
 
             return jsonNode;
         }
         catch (Throwable e) {
-            System.err.println(e);
+            logger.log(e.getMessage());
             return null;
         }
     }
