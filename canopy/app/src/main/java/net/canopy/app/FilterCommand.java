@@ -29,6 +29,6 @@ public class FilterCommand {
     public FilterCommand(String cliString) {
         String[] cmd = cliString.split(":", 2);
         this.filterClassName = cmd.length > 0 ? cmd[0] : "";
-        this.filterArgument = cmd.length > 1 ? cmd[0] : "";
+        this.filterArgument = cmd.length > 1 ? cmd[1] : "";
     }
 }
