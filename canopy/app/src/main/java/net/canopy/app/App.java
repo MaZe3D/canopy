@@ -1,6 +1,8 @@
 package net.canopy.app;
 
-import net.canopy.app.api.*;
+import net.canopy.app.api.IFilter;
+import net.canopy.app.api.Logger;
+import net.canopy.app.api.FilterException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -9,17 +11,32 @@ import org.reflections.Reflections;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * Main class of Canopy. Contains the entry point of the application.
+ */
 public class App {
 
     private static Logger logger = new Logger(App.class.getName());
 
+    /**
+     * Entry point of Canopy.
+     *
+     * @param args Command line arguments passed to Canopy.
+     *        Every argument should specify (the end of) a classpath to a valid filter class, as well as an optional string argument for that filter.
+     *
+     * @see IFilter
+     * @see FilterCommand
+     */
     public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException {
-        ArgumentParser argsParser = new ArgumentParser(args);
-
-        var filterCommands = argsParser.getArguments();
-        if (filterCommands.size() == 0) {
+        if (args.length == 0) {
             logger.log("no filter commands specified");
             return;
+        }
+
+        // split arguments into filter classname + filter argument
+        FilterCommand[] filterCommands = new FilterCommand[args.length];
+        for (int i = 0; i < args.length; i++) {
+            filterCommands[i] = new FilterCommand(args[i]);
         }
 
         var filterChain = loadFilters(filterCommands);
@@ -31,26 +48,26 @@ public class App {
             return;
         }
 
-        runFilterChain(filterChain, argsParser.getArguments());
+        runFilterChain(filterChain, filterCommands);
     }
 
-    private static IFilter[] loadFilters(ArrayList<Argument> filterCommands) {
+    private static IFilter[] loadFilters(FilterCommand[] filterCommands) {
         // get all classes implementing IFilter with classpath starting with net.canopy.filters
         Set<Class<? extends IFilter>> filterClasses = new Reflections("net.canopy.filters").getSubTypesOf(IFilter.class);
 
-        IFilter[] filterChain = new IFilter[filterCommands.size()];
-        for (int i = 0; i < filterCommands.size(); i++) {
-                var arg = filterCommands.get(i);
+        IFilter[] filterChain = new IFilter[filterCommands.length];
+        for (int i = 0; i < filterCommands.length; i++) {
+                var arg = filterCommands[i];
 
                 Set<Class<? extends IFilter>> matchingFilterClasses = new HashSet<>();
                 for (Class<? extends IFilter> clazz : filterClasses) {
-                    if (clazz.getCanonicalName().endsWith(arg.getCommand())) {
+                    if (clazz.getCanonicalName().endsWith(arg.filterClassName)) {
                         matchingFilterClasses.add(clazz); // don't break to check for collisions
                     }
                 }
                 Class<? extends IFilter> filterClass = matchingFilterClasses.iterator().next();
 
-                logger.log("Load filter: " + filterClass + " with arguments: " + arg.getParameter());
+                logger.log("Load filter: " + filterClass + " with arguments: " + arg.filterArgument);
 
                 try {
                     filterChain[i] = (IFilter)filterClass.getDeclaredConstructor().newInstance();
@@ -79,11 +96,11 @@ public class App {
         }
     }
 
-    private static void runFilterChain(IFilter[] filterChain, ArrayList<Argument> args) {
+    private static void runFilterChain(IFilter[] filterChain, FilterCommand[] filterCommands) {
         JsonNode node = null;
         for (int i = 0; i < filterChain.length; i++) {
             try {
-                node = filterChain[i].apply(node, args.get(i).getParameter());
+                node = filterChain[i].apply(node, filterCommands[i].filterArgument);
             } catch (FilterException e) {
                 logger.log("An error occured while running filter \"" + filterChain[i].getClass().getName() + "\": " + e.getMessage() + ". The filter chain will be aborted.");
                 break;
