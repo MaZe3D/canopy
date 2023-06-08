@@ -32,6 +32,6 @@ Module lassen sich Beliebig anwenden und verketten. So lässt sich mit dem Aufru
 canopy LoadJson:"./example.json" Encrypt:"password123" StoreJSON:"./encrypted.json StoreXML:"./encrypted.xml"
 ```
 1. `LoadJson:"./example.json"` lädt die Datei `./example.json`
-2. `Encrypt:"password123"` verschlüsselt alle Values der Baumstruktur. Die Daten liegen dann Veschlüsselt im base64-Format vor.
+2. `Encrypt:"password123"` verschlüsselt alle Values der Baumstruktur. Die Daten liegen dann Verschlüsselt im base64-Format vor.
 3. `StoreJson:"./encrypted.json` speichert das Ergebnis in einer JSON-Datei
 4. `StoreXml:"./encrypted.xml` speichert das Ergebnis zusätzlich in einer XML-Datei
