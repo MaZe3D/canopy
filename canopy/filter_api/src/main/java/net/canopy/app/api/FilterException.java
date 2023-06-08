@@ -5,7 +5,11 @@ package net.canopy.app.api;
  */
 
 public class FilterException extends Exception {
-    IFilter filter;
+
+    /**
+     * The filter that threw the exception.
+     */
+    private IFilter filter;
 
     /**
      * Creates a new FilterException with the given message.

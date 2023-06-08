@@ -15,6 +15,7 @@ public interface IFilter {
      *                 This is the output of the previous filter, or null if this is the first filter in the chain (only possible with {@link IFilter.ILoadFilter}).
      * @param argument Arbitrary argument string passed through directly from the user.
      * @return JsonNode representing the output JSON tree structure of this filter - may never be null.
+     * @throws FilterException If an error occurs while applying the filter.
      *
      * @see IFilter.ILoadFilter
      * @see IFilter.IStoreFilter
@@ -29,7 +30,7 @@ public interface IFilter {
      * Canopy filter interface for filters that don't use the JSON tree structure that is passed to {@link IFilter#apply(JsonNode, String)}.
      * This should be used for filters that load or generate their own data.
      * Only filters that implement this interface can be the first filter in the chain.
-     * <p>
+     *
      * This interface does not add anything to {@link IFilter}, it is only used to ensure a sensible order of the filters in the filter chain.
      * Use in conjunction with {@link IFilter.IStoreFilter} is valid.
      *
@@ -47,7 +48,7 @@ public interface IFilter {
      * Only filters that implement this interface can be the last filter in the chain, or the last filter before another {@link IFilter.ILoadFilter}.
      * Store filters must still return a non-null value from {@link #apply(JsonNode, String)}.
      * Simply returning the input value allows for nice chaining of multiple store-filters.
-     * <p>
+     *
      * This interface does not add anything to {@link IFilter}, it is only used to ensure a sensible order of the filters in the filter chain.
      * Use in conjunction with {@link ILoadFilter} is valid.
      *
