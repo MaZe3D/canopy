@@ -4,11 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Set;
 import org.reflections.Reflections;
-import java.lang.reflect.Method;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class App {
     public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException {
@@ -17,8 +14,8 @@ public class App {
         var filterChain = loadFilters(argsParser);
 
         try {
-            integrityCheck(filterChain);
-        } catch (FilterChainIntegrityException e) {
+            checkFilterOrder(filterChain);
+        } catch (FilterOrderException e) {
             System.err.println(e.getMessage());
             return;
         }
@@ -27,54 +24,53 @@ public class App {
 
     }
 
-    public static IFilter[] loadFilters(ArgumentParser argsParser) {
+    private static IFilter[] loadFilters(ArgumentParser argsParser) {
+        // get all classes implementing IFilter with classpath starting with net.canopy.filters
+        Set<Class<? extends IFilter>> filterClasses = new Reflections("net.canopy.filters").getSubTypesOf(IFilter.class);
+
         IFilter[] filterChain = new IFilter[argsParser.getArguments().size()];
-
         for (int i = 0; i < argsParser.getArguments().size(); i++) {
-            try {
                 var arg = argsParser.getArguments().get(i);
-                Class<?> filterClass = Class.forName("net.canopy.filters." + arg.getCommand());
-                if (!IFilter.class.isAssignableFrom(filterClass)) {
-                    System.err.println("class does not implement IFilter interface: " + filterClass.getClass() + "\naborting...");
-                    break;
+
+                Set<Class<? extends IFilter>> matchingFilterClasses = new HashSet<>();
+                for (Class<? extends IFilter> clazz : filterClasses) {
+                    if (clazz.getCanonicalName().endsWith(arg.getCommand())) {
+                        matchingFilterClasses.add(clazz); // don't break to check for collisions
+                    }
                 }
+                Class<? extends IFilter> filterClass = matchingFilterClasses.iterator().next();
 
-                System.err.println("Load filter: " + filterClass + "with arguments: " + arg.getParameter());
+                System.err.println("Load filter: " + filterClass + " with arguments: " + arg.getParameter());
 
-                filterChain[i] = (IFilter)filterClass.getDeclaredConstructor().newInstance();
-            }
-            catch (Throwable e) {
-                e.printStackTrace();
-                break;
-            }
+                try {
+                    filterChain[i] = (IFilter)filterClass.getDeclaredConstructor().newInstance();
+                } catch (Throwable e) { e.printStackTrace(); return null; }
         }
 
         return filterChain;
     }
 
-    public static void integrityCheck(IFilter[] filterChain) throws FilterChainIntegrityException {
-        //Check if first node is IFilter.ILoadFilter
+    private static void checkFilterOrder(IFilter[] filterChain) throws FilterOrderException {
+        // check if first node is IFilter.ILoadFilter
         if (!(filterChain[0] instanceof IFilter.ILoadFilter)) {
-            throw new FilterChainIntegrityException("First filter in chain must be IFilter.ILoadFilter");
+            throw new FilterOrderException("First filter in chain must be IFilter.ILoadFilter");
         }
 
-        //Check if all Load-Filter are followed by a Store-Filter
+        // check if every Store-Filter is preceeded by a Store-Filter
         for (int i = 0; i < filterChain.length - 1; i++) {
-            if (filterChain[i] instanceof IFilter.ILoadFilter && !(filterChain[i + 1] instanceof IFilter.IStoreFilter)) {
-                throw new FilterChainIntegrityException("Load filters must be followed by a store filter");
+            if (!(filterChain[i] instanceof IFilter.IStoreFilter) && filterChain[i + 1] instanceof IFilter.ILoadFilter) {
+                throw new FilterOrderException("Load filters must be preceded by a store filter (except at the beginning)");
             }
         }
 
-        //Check if last node is IFilter.IStoreFilter
+        // check if last node is IFilter.IStoreFilter
         if (!(filterChain[filterChain.length - 1] instanceof IFilter.IStoreFilter)) {
-            throw new FilterChainIntegrityException("Last filter in chain must be IFilter.IStoreFilter");
+            throw new FilterOrderException("Last filter in chain must be IFilter.IStoreFilter");
         }
     }
 
-    public static void runFilterChain(IFilter[] filterChain, ArrayList<Argument> args)
-    {
+    private static void runFilterChain(IFilter[] filterChain, ArrayList<Argument> args) {
         JsonNode node = null;
-
         for (int i = 0; i < filterChain.length; i++) {
             node = filterChain[i].apply(node, args.get(i).getParameter());
         }
