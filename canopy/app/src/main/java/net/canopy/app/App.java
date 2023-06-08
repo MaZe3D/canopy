@@ -17,7 +17,13 @@ public class App {
     public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException {
         ArgumentParser argsParser = new ArgumentParser(args);
 
-        var filterChain = loadFilters(argsParser);
+        var filterCommands = argsParser.getArguments();
+        if (filterCommands.size() == 0) {
+            logger.log("no filter commands specified");
+            return;
+        }
+
+        var filterChain = loadFilters(filterCommands);
 
         try {
             checkFilterOrder(filterChain);
@@ -29,13 +35,13 @@ public class App {
         runFilterChain(filterChain, argsParser.getArguments());
     }
 
-    private static IFilter[] loadFilters(ArgumentParser argsParser) {
+    private static IFilter[] loadFilters(ArrayList<Argument> filterCommands) {
         // get all classes implementing IFilter with classpath starting with net.canopy.filters
         Set<Class<? extends IFilter>> filterClasses = new Reflections("net.canopy.filters").getSubTypesOf(IFilter.class);
 
-        IFilter[] filterChain = new IFilter[argsParser.getArguments().size()];
-        for (int i = 0; i < argsParser.getArguments().size(); i++) {
-                var arg = argsParser.getArguments().get(i);
+        IFilter[] filterChain = new IFilter[filterCommands.size()];
+        for (int i = 0; i < filterCommands.size(); i++) {
+                var arg = filterCommands.get(i);
 
                 Set<Class<? extends IFilter>> matchingFilterClasses = new HashSet<>();
                 for (Class<? extends IFilter> clazz : filterClasses) {
