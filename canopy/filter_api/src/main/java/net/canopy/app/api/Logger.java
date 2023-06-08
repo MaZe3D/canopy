@@ -1,4 +1,5 @@
-package net.canopy.app;
+package net.canopy.app.api;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

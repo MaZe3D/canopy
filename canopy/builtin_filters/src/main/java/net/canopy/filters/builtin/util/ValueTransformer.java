@@ -1,4 +1,4 @@
-package net.canopy.filters;
+package net.canopy.filters.builtin.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;

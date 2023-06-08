@@ -1,8 +1,7 @@
-package net.canopy.filters;
+package net.canopy.filters.builtin;
 
-
-import net.canopy.app.IFilter;
-import net.canopy.app.Logger;
+import net.canopy.app.api.IFilter;
+import net.canopy.app.api.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

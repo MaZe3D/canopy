@@ -8,4 +8,4 @@
  */
 
 rootProject.name = "main"
-include("app", "filter_interface", "default_filters")
+include("app", "filter_api", "builtin_filters")

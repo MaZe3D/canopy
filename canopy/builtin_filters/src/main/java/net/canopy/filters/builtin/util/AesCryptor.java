@@ -1,4 +1,4 @@
-package net.canopy.filters;
+package net.canopy.filters.builtin.util;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;

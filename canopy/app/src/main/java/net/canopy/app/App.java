@@ -1,5 +1,8 @@
 package net.canopy.app;
 
+import net.canopy.app.api.IFilter;
+import net.canopy.app.api.Logger;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Set;

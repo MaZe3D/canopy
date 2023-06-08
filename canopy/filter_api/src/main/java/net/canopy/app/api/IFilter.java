@@ -1,4 +1,4 @@
-package net.canopy.app;
+package net.canopy.app.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

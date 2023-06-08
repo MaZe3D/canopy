@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":filter_interface"))
+    implementation(project(":filter_api"))
 
     // Add Jackson for generating a tree
     implementation("com.fasterxml.jackson.core:jackson-databind:2.14.2")

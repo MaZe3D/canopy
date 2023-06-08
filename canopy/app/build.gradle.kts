@@ -7,8 +7,8 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":filter_interface"))
-    implementation(project(":default_filters"))
+    implementation(project(":filter_api"))
+    implementation(project(":builtin_filters"))
 
     // Use JUnit Jupiter for testing.
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
@@ -32,15 +32,15 @@ tasks.named<Test>("test") {
     useJUnitPlatform()
 }
 
-// configure javadoc to create single documentation for all subprojects: app, filter_interface, default_filters
+// configure javadoc to create single documentation for all subprojects: app, filter_api, builtin_filters
 gradle.projectsEvaluated {
     tasks.withType<Javadoc> {
         title = "Canopy Documentation"
         source(sourceSets["main"].allJava)
-        source(project(":filter_interface").the<SourceSetContainer>()["main"].allJava)
-        source(project(":default_filters").the<SourceSetContainer>()["main"].allJava)
+        source(project(":filter_api").the<SourceSetContainer>()["main"].allJava)
+        source(project(":builtin_filters").the<SourceSetContainer>()["main"].allJava)
         classpath = sourceSets["main"].compileClasspath
-        classpath += project(":filter_interface").the<SourceSetContainer>()["main"].compileClasspath
-        classpath += project(":default_filters").the<SourceSetContainer>()["main"].compileClasspath
+        classpath += project(":filter_api").the<SourceSetContainer>()["main"].compileClasspath
+        classpath += project(":builtin_filters").the<SourceSetContainer>()["main"].compileClasspath
     }
 }
