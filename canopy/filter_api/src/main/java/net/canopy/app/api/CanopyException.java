@@ -7,7 +7,14 @@ package net.canopy.app.api;
 public class CanopyException extends Exception {
     private static String prependText = "A fatal problem in the program routine has occurred. Please contact the developer. Additional information: ";
 
-    public CanopyException(String soruce, String message) {
-        super(prependText + soruce + ": " + message);
+    /**
+     * Creates a new CanopyException with the given message.
+     * The message is prefixed with the following text: "A fatal problem in the program routine has occurred. Please contact the developer. Additional information: "
+     *
+     * @param source  The source of the exception. Typically the name of the class that threw the exception.
+     * @param message The message of the exception.
+     */
+    public CanopyException(String source, String message) {
+        super(prependText + source + ": " + message);
     }
 }
