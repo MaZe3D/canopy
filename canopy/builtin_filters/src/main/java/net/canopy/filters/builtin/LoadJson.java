@@ -1,3 +1,4 @@
+
 package net.canopy.filters.builtin;
 
 import net.canopy.app.api.*;
@@ -12,10 +13,22 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.MalformedURLException;
 
+/**
+ * The LoadJson class implements the ILoadFilter interface and is used to load JSON data from a source.
+ * It reads JSON data from either a file or the standard input, based on the specified parameter.
+ */
 public class LoadJson implements IFilter.ILoadFilter {
 
     private Logger logger = new Logger(this.getClass().getName());
     @Override
+    /**
+    * Applies the JSON loading filter to the provided JSON node using the specified parameter.
+    *
+    * @param jsonNode   The JSON node to apply the filter on.
+    * @param parameter  The parameter specifying the source of the JSON data. If empty, the standard input is used.
+    * @return The loaded JSON data as a JsonNode object.
+    * @throws FilterException If an error occurs while loading the JSON data.
+    */
     public JsonNode apply(JsonNode jsonNode, String parameter) throws FilterException {
         try {
             if (parameter == "") {

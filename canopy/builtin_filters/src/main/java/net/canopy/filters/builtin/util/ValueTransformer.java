@@ -8,10 +8,19 @@ import com.fasterxml.jackson.databind.node.ValueNode;
 
 import net.canopy.app.api.CanopyException;
 
-// class for iterating over a json tree for the purpose transforming all value nodes
+/**
+ * The ValueTransformer class is a utility class for transforming the values of a given JSON structure.
+ */
 public abstract class ValueTransformer {
 
-    // recursively traverse json tree to construct new tree with transformed values
+    /**
+     * Recursively traverses the given JSON tree and constructs a new tree with transformed values.
+     * The transformation is done by the transformValue function.
+     *
+     * @param jsonNode The JSON tree to transform.
+     * @return The transformed JSON tree.
+     * @throws CanopyException If an error occurs while transforming the JSON data. This exception should never occur.
+     */
     protected JsonNode transformTree(JsonNode jsonNode) throws CanopyException {
 
         // ValueNode -> text representation -> TextNode with transformed text
@@ -22,7 +31,7 @@ public abstract class ValueTransformer {
         // ObjectNode -> ObjectNode with same fields but transformed values
         if (jsonNode.isObject()) {
             ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
-            
+
             for (var it = jsonNode.fields(); it.hasNext(); ) {
                 var field = it.next();
                 objectNode.set(field.getKey(), this.transformTree(field.getValue()));
@@ -47,7 +56,14 @@ public abstract class ValueTransformer {
         return null;
     }
 
-    // function that does the actual transformation of the values - may not modify value!
+    /**
+     * Transforms the given value node.
+     * The transformation is done by the transformValue function.
+     *
+     * @param value The value node to transform.
+     * @return The transformed value node.
+     * @throws CanopyException If an error occurs while transforming the JSON data. This exception should never occur.
+     */
     protected abstract ValueNode transformValue(ValueNode value) throws CanopyException;
 
 }

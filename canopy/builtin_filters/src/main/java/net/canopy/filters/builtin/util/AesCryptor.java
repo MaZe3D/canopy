@@ -11,8 +11,21 @@ import java.util.Base64;
 
 import net.canopy.app.api.CanopyException;
 
+/**
+ * The AesCryptor class is a utility class that provides AES encryption and decryption.
+ * It uses the PBKDF2WithHmacSHA256 algorithm to derive a key from a given password.
+ * The key is then used to encrypt and decrypt the data.
+ * The encrypted data is encoded using Base64.
+ */
+
 public class AesCryptor {
     private SecretKeySpec secretKeySpec;
+
+    /**
+     * Creates a new AesCryptor instance.
+     * @param password The password to use for the encryption.
+     * @throws CanopyException If an error occurs while deriving the key from the password. This error should never occur.
+     */
     public AesCryptor(String password) throws CanopyException{
         this.secretKeySpec = this.deriveKeyFromPassword(password);
     }
@@ -33,7 +46,12 @@ public class AesCryptor {
         }
     }
 
-    // convert values to strings, encrypt the strings, apply bas64 encoding
+    /**
+     * Encrypts a string using AES.
+     * @param plaintext The string to encrypt.
+     * @return The encrypted string.
+     * @throws CanopyException If an error occurs while encrypting the string. This error should never occur.
+     */
     public String encrypt(String plaintext) throws CanopyException {
         try {
             Cipher cipher = Cipher.getInstance("AES");
@@ -46,7 +64,12 @@ public class AesCryptor {
         }
     }
 
-    // decode bas64 + decrypt string
+    /**
+     * Decrypts a string using AES.
+     * @param ciphertext The string to decrypt.
+     * @return The decrypted string.
+     * @throws CanopyException If an error occurs while decrypting the string. This error should never occur.
+     */
     public String decrypt(String ciphertext) throws CanopyException {
         try {
             Cipher cipher = Cipher.getInstance("AES");

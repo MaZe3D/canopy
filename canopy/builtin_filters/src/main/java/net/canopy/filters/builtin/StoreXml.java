@@ -21,10 +21,22 @@ import java.net.MalformedURLException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
+/**
+ * The StoreJson class implements the IStoreFilter interface and is used to store XML data to a target location.
+ * It converts the provided XML node into a XML string using the Jackson ObjectMapper, and then writes the string to either a file or the standard output, based on the specified parameter.
+ */
 public class StoreXml implements IFilter.IStoreFilter {
 
     private Logger logger = new Logger(this.getClass().getName());
 
+    /**
+    * Applies the XML storing filter to the provided XML node using the specified parameter.
+    *
+    * @param jsonNode   The JSON node to apply the filter on.
+    * @param parameter  The parameter specifying the target location for storing the XML data. If no parameter is specified, the XML data is written to the standard output.
+    * @return The XML node itself.
+    * @throws FilterException If an error occurs while storing the XML data.
+    */
     @Override
     public JsonNode apply(JsonNode jsonNode, String parameter) throws FilterException {
         try {

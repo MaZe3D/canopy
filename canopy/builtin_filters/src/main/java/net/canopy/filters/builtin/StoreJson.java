@@ -13,10 +13,23 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.MalformedURLException;
 
+
+/**
+ * The StoreJson class implements the IStoreFilter interface and is used to store JSON data to a target location.
+ * It converts the provided JSON node into a JSON string using the Jackson ObjectMapper, and then writes the string to either a file or the standard output, based on the specified parameter.
+ */
 public class StoreJson implements IFilter.IStoreFilter {
 
     private Logger logger = new Logger(this.getClass().getName());
 
+    /**
+    * Applies the JSON storing filter to the provided JSON node using the specified parameter.
+    *
+    * @param jsonNode   The JSON node to apply the filter on.
+    * @param parameter  The parameter specifying the target location for storing the JSON data. If no parameter is specified, the JSON data is written to the standard output.
+    * @return The JSON node itself.
+    * @throws FilterException If an error occurs while storing the JSON data.
+    */
     @Override
     public JsonNode apply(JsonNode jsonNode, String parameter) throws FilterException {
         try {
